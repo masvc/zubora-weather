@@ -109,8 +109,7 @@ header {
   height: 40px;
 }
 
-/* フッターのスタイル */
-footer {
+/* footer {
   height: 30px;
   font-size: 14px;
   display: flex;
@@ -123,7 +122,7 @@ footer {
   bottom: 0;
   width: 100%;
   padding: 0 10px;
-}
+} */
 
 .about {
   padding: 15px;
