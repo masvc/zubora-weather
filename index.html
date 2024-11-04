@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ずぼら天気は、天気予報から気温や天気の情報を取得して、今日の服装や体調のステータスを表示するWEB APPです。季節の変わり目で体調を崩しやすい人や低気圧の時に体調を崩しやすい人、忙しい中で今日のお天気情報を確認したい人におすすめです。"
+    />
+    <title>ABOUT | ずぼら天気</title>
+    <link rel="stylesheet" href="css/destyle.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="img/logo.png" id="favicon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="headerlogo" href="index.html">
+        <img class="headerimg" src="img/logo.png" alt="Logo" />
+        <h1>ずぼら天気</h1>
+      </a>
+    </header>
+
+    <main class="skyback">
+      <video
+        class="backvideo"
+        src="video/sky.mov"
+        autoplay
+        loop
+        muted
+        playsinline
+      ></video>
+      <div class="content">
+        <section id="weatherbox" class="weatherbox">
+          <div>
+            <div class="weatherboxlogo">
+              <img class="headerimg" src="img/logo.png" alt="Weather Logo" />
+              <h2>『ずぼら天気』とは。</h2>
+            </div>
+            <div class="about">
+              <p>
+                ずぼら天気は、天気予報や気温情報をから「今日の服装や体調のステータス」を表示するWEBアプリです☀️☁
+              </p>
+              <p>
+                季節の変わり目で体調を崩しやすい人、低気圧の時に体調を崩しやすい人、忙しい中でパパッとお天気情報を確認したい人に使ってほしいサービスです☂️
+              </p>
+            </div>
+          </div>
+        </section>
+        <div class="logincontent">
+          <section id="loginbox" class="loginbox">
+            <button class="lgb">
+              <a class="glogin" href="main.html">
+                <img class="loginbtn" src="img/btn.png" alt="" />
+                <h2>さっそく使ってみる！</h2>
+              </a>
+            </button>
+          </section>
+        </div>
+      </div>
+    </main>
+
+    <footer>
+      <h6>©︎G's ACADEMY</h6>
+    </footer>
+  </body>
+</html>

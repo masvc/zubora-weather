@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="ja">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta
+      name="description"
+      content="ずぼら天気は、天気予報から気温や天気の情報を取得して、今日の服装や体調のステータスを表示するWEB APPです。季節の変わり目で体調を崩しやすい人や低気圧の時に体調を崩しやすい人、忙しい中で今日のお天気情報を確認したい人におすすめです。"
+    />
+    <title>ずぼら天気</title>
+    <link rel="stylesheet" href="css/destyle.css" />
+    <link rel="stylesheet" href="css/style.css" />
+    <link rel="icon" href="img/logo.png" id="favicon" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <header>
+      <a class="headerlogo" href="index.html">
+        <img class="headerimg" src="img/logo.png" alt="Logo" />
+        <h1>ずぼら天気</h1>
+      </a>
+    </header>
+
+    <main class="skyback">
+      <video
+        class="backvideo"
+        src="video/sky.mov"
+        autoplay
+        loop
+        muted
+        playsinline
+      ></video>
+
+      <div class="content">
+        <section id="weatherbox" class="weatherbox">
+          <div>
+            <div id="date" class="date"></div>
+            <label for="area">地域をこちらから選んでください</label>
+            <select name="area" id="area" class="area">
+              <option value="adachi">足立区</option>
+              <option value="arakawa">荒川区</option>
+              <option value="bunkyo">文京区</option>
+              <option value="chiyoda">千代田区</option>
+              <option value="chuo">中央区</option>
+              <option value="edogawa">江戸川区</option>
+              <option value="itabashi">板橋区</option>
+              <option value="katsushika">葛飾区</option>
+              <option value="kita">北区</option>
+              <option value="koto">江東区</option>
+              <option value="meguro">目黒区</option>
+              <option value="minato">港区</option>
+              <option value="nakano">中野区</option>
+              <option value="nerima">練馬区</option>
+              <option value="ota">大田区</option>
+              <option value="setagaya">世田谷区</option>
+              <option value="shibuya" selected>渋谷区</option>
+              <option value="shinagawa">品川区</option>
+              <option value="shinjuku">新宿区</option>
+              <option value="suginami">杉並区</option>
+              <option value="sumida">墨田区</option>
+              <option value="taito">台東区</option>
+              <option value="toshima">豊島区</option>
+            </select>
+          </div>
+        </section>
+
+        <section id="viewbox1" class="viewbox1">
+          <div id="view1"></div>
+          <div id="view4"></div>
+        </section>
+        <section id="viewbox2" class="viewbox2">
+          <div id="view2" class="vc"></div>
+          <div id="view5"></div>
+        </section>
+        <section id="viewbox2" class="viewbox2">
+          <div id="view3" class="vc"></div>
+          <div id="view6"></div>
+        </section>
+      </div>
+    </main>
+
+    <footer>
+      <h6>©︎G's ACADEMY</h6>
+    </footer>
+
+    <script>
+      const key = "e46a12a2f20dbc31bc01a9a3960ea678";
+
+      const locations = {
+        adachi: { lat: 35.775, lon: 139.804 },
+        arakawa: { lat: 35.733, lon: 139.783 },
+        bunkyo: { lat: 35.707, lon: 139.752 },
+        chiyoda: { lat: 35.693, lon: 139.753 },
+        chuo: { lat: 35.666, lon: 139.77 },
+        edogawa: { lat: 35.689, lon: 139.858 },
+        itabashi: { lat: 35.751, lon: 139.709 },
+        katsushika: { lat: 35.743, lon: 139.847 },
+        kita: { lat: 35.752, lon: 139.733 },
+        koto: { lat: 35.68, lon: 139.817 },
+        meguro: { lat: 35.641, lon: 139.698 },
+        minato: { lat: 35.658, lon: 139.751 },
+        nakano: { lat: 35.707, lon: 139.663 },
+        nerima: { lat: 35.735, lon: 139.652 },
+        ota: { lat: 35.561, lon: 139.716 },
+        setagaya: { lat: 35.646, lon: 139.653 },
+        shibuya: { lat: 35.662, lon: 139.702 },
+        shinagawa: { lat: 35.609, lon: 139.73 },
+        shinjuku: { lat: 35.693, lon: 139.703 },
+        suginami: { lat: 35.699, lon: 139.636 },
+        sumida: { lat: 35.71, lon: 139.799 },
+        taito: { lat: 35.712, lon: 139.78 },
+        toshima: { lat: 35.731, lon: 139.715 },
+      };
+
+      const pressureComments = {
+        highPressure: {
+          condition: "高気圧（1013 hPa以上）",
+          comment:
+            "「今日は高気圧です。気持ちが安定しやすく元気に一日過ごしていきましょう！」",
+        },
+        lowPressure: {
+          condition: "低気圧（1013 hPa未満）",
+          comment:
+            "「今日は低気圧です。身体や気分の不調があるかもしれませんが、気負わず自分のペースでやっていきましょう。」",
+        },
+      };
+
+      $(document).ready(function () {
+        $("#area").change(function () {
+          const area = $(this).val();
+          const { lat, lon } = locations[area];
+
+          const url =
+            "https://api.openweathermap.org/data/2.5/weather?lat=" +
+            lat +
+            "&lon=" +
+            lon +
+            "&appid=" +
+            key +
+            "&units=metric" +
+            "&lang=ja";
+
+          $.ajax({
+            url: url,
+            type: "get",
+            cache: false,
+            dataType: "json",
+          }).done(function (data) {
+            console.log(data);
+
+            let html1 = `
+                        <div>
+                            <div>天気：${data.weather[0].description}</div>
+                            <div>風速：${data.wind.speed} m/s</div>
+                        </div>`;
+            $("#view1").html(html1);
+            let html2 = `
+                        <div>
+                            <div>最高気温：${data.main.temp_max} °C</div>
+                            <div>最低気温：${data.main.temp_min} °C</div>
+                            ${
+                              data.rain && data.rain["1h"]
+                                ? `<div>降水量（過去1時間）：${data.rain["1h"]} mm</div>`
+                                : ""
+                            }
+                            ${
+                              data.rain && data.rain["3h"]
+                                ? `<div>降水量（過去3時間）：${data.rain["3h"]} mm</div>`
+                                : ""
+                            }
+                        </div>`;
+            $("#view2").html(html2);
+            let html3 = `
+                        <div>
+                            <div>気圧：${data.main.pressure} hPa</div>
+                        </div>`;
+            $("#view3").html(html3);
+
+            const icon =
+              "https://openweathermap.org/img/wn/" +
+              data.weather[0].icon +
+              "@2x.png";
+            let html4 = `
+                        <div>
+                            <div class="vb" ><img src="${icon}" alt="天気アイコン"></div>
+                        </div>`;
+            $("#view4").html(html4);
+
+            const maxTemp = data.main.temp_max;
+            let clothingAdvice = "";
+
+            if (maxTemp <= 10) {
+              clothingAdvice = clothingGuidelines.coldWeather;
+            } else if (maxTemp > 10 && maxTemp <= 15) {
+              clothingAdvice = clothingGuidelines.coolWeather;
+            } else if (maxTemp > 15 && maxTemp <= 20) {
+              clothingAdvice = clothingGuidelines.comfortableWeather;
+            } else if (maxTemp > 20) {
+              clothingAdvice = clothingGuidelines.warmWeather;
+            }
+
+            let clothingHtml = `
+                        <div>
+                            <div>${clothingAdvice.description}</div>
+                            <div>おすすめの服装：</div>
+                            <ul>
+                                ${clothingAdvice.recommendedClothing
+                                  .map((item) => `<li>${item}</li>`)
+                                  .join("")}
+                            </ul>
+                        </div>`;
+            $("#view5").html(clothingHtml);
+
+            let html6 = "";
+            if (data.main.pressure >= 1013) {
+              html6 = `<div>${pressureComments.highPressure.comment}</div>`;
+            } else {
+              html6 = `<div>${pressureComments.lowPressure.comment}</div>`;
+            }
+            $("#view6").html(html6);
+          });
+        });
+
+        $("#area").trigger("change");
+      });
+
+      const clothingGuidelines = {
+        coldWeather: {
+          temperatureRange: "0 - 10 °C",
+          description: "「寒いので、しっかり防寒しましょう。」",
+          recommendedClothing: ["・コート", "・セーター", "・手袋"],
+        },
+        coolWeather: {
+          temperatureRange: "10 - 15 °C",
+          description: "「少し肌寒いですが、重ね着を。」",
+          recommendedClothing: ["・ジャケット", "・長袖シャツ"],
+        },
+        comfortableWeather: {
+          temperatureRange: "15 - 20 °C",
+          description: "「快適な気温です。」",
+          recommendedClothing: ["・半袖シャツ", "・軽いジャケット"],
+        },
+        warmWeather: {
+          temperatureRange: "20 °C以上",
+          description: "「暑くなるので、軽装で。」",
+          recommendedClothing: ["・Tシャツ", "・ショートパンツ"],
+        },
+      };
+
+      $(document).ready(function () {
+        const today = new Date();
+
+        const options = {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+          weekday: "long",
+          hour: "2-digit",
+          minute: "2-digit",
+        };
+        const formattedDate = today.toLocaleDateString("ja-JP", options);
+
+        $("#date").text(formattedDate);
+      });
+    </script>
+  </body>
+</html>
