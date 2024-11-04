@@ -12,6 +12,7 @@
 ## ③ アプリのデプロイ URL
 
 デプロイしている場合は URL を記入（任意）
+https://aamaa.jp/js_api/
 
 ## ④ アプリのログイン用 ID または Password（ある場合）
 
