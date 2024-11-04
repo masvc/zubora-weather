@@ -7,15 +7,15 @@ p {
 }
 
 .skyback {
-  position: fixed;
   width: 100%;
-  height: 100vh;
+  min-height: 100vh;
   overflow: hidden;
   z-index: 0;
+  position: relative; /* 修正箇所 */
 }
 
 .backvideo {
-  position: absolute;
+  position: fixed;
   top: 50%;
   left: 50%;
   min-width: 100%;
@@ -29,8 +29,8 @@ p {
 .content {
   position: relative;
   z-index: 1;
-  padding-top: 50px;
-  /padding-bottom: 50px;
+  padding-top: 70px; /* 修正箇所 */
+  padding-bottom: 30px; /* 修正箇所 */
 }
 
 .headerimg {
@@ -109,21 +109,6 @@ header {
   height: 40px;
 }
 
-/* footer {
-  height: 30px;
-  font-size: 14px;
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  background-color: lightskyblue;
-  color: white;
-  z-index: 2; /* フッターを前面に表示 */
-  position: fixed;
-  bottom: 0;
-  width: 100%;
-  padding: 0 10px;
-} */
-
 .about {
   padding: 15px;
 }
@@ -169,4 +154,20 @@ header {
 
 .vc {
   margin-bottom: 5px;
+}
+
+/* フッターのスタイル */
+footer {
+  height: 30px;
+  font-size: 14px;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  background-color: lightskyblue;
+  color: white;
+  z-index: 2;
+  position: relative; /* 修正箇所 */
+  bottom: 0;
+  width: 100%;
+  padding: 0 10px;
 }
